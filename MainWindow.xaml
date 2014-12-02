@@ -1,0 +1,67 @@
+﻿<Window x:Name="Purple_MainWindow" x:Class="Purple.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:purpleLib="clr-namespace:PurpleLib;assembly=PurpleLib"
+        Title="ProtoTest - Purple" Height="536" Width="948" Background="#FF63166A" ResizeMode="CanResizeWithGrip" Loaded="Purple_MainWindow_Loaded" Unloaded="Purple_MainWindow_Unloaded" MinWidth="523" MinHeight="200">
+    <Grid Background="#7F4D136E" Margin="0,30,0,7">
+        <Grid HorizontalAlignment="Right" Width="505" Background="#FF3E044F" Margin="0,-1,0,1">
+            <TabControl Margin="4,42,5,6" Background="#FF6F208D">
+                <TabItem Header="Element Info" Margin="-2,-2,-3,0" Background="#FFAD5CC5" BorderBrush="#FF1E0649">
+                    <Grid Background="#FF6F208D" Margin="0,15,-4,-4">
+                        <TextBox x:Name="purplepathtextbox" HorizontalAlignment="Left" Height="23" Margin="10,-7,0,0" Text="PurplePath" VerticalAlignment="Top" Width="428" MaxLines="1" TextOptions.TextFormattingMode="Display"/>
+                        <Button x:Name="CopyButton" Content="C" HorizontalAlignment="Left" Margin="443,-7,0,0" VerticalAlignment="Top" Width="29" Height="23" Background="#FFB692F3" Click="CopyButton_Click"/>
+                        <Button x:Name="AddToCachedElements" Content="Add Element" Margin="363,339,0,0" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top" Click="Add_Element_Selected_Click"/>
+                        <Label Content="Available Patterns" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="IsEnabled_Checkbox" Content="Is Enabled" HorizontalAlignment="Left" Margin="10,308,0,0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="IsOffscreen_checkbox" Content="Is Offscreen" HorizontalAlignment="Left" Margin="92,308,0,0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="IsKeyboardFocusable_checkbox" Content="Is Keyboard Focusable" HorizontalAlignment="Left" Margin="185,308,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="ProcessID_textbox" HorizontalAlignment="Left" Height="23" Margin="325,305,0,0" Text="ProcessID" VerticalAlignment="Top" Width="113" IsReadOnly="True"/>
+                        <TextBox x:Name="AvailableInfo_textbox" HorizontalAlignment="Left" Height="210" Margin="10,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="428"/>
+                    </Grid>
+                </TabItem>
+                <TabItem BorderBrush="#FF190340" Background="#FFAD5CC5" Header="Element Cache">
+                    <Grid Background="#FF6F208D" Margin="0,-3,-4,-4">
+                        <DataGrid x:Name="CachedElementsGrid" Margin="10,32,10,74" IsSynchronizedWithCurrentItem="False" AutoGenerateColumns="False"/>
+                        <Label Content="Cached Elements" Margin="2,0,373,344"/>
+                        <Button x:Name="ClearCache_button" Content="Clear" HorizontalAlignment="Left" Margin="10,344,0,0" VerticalAlignment="Top" Width="75" Click="ClearCache_button_Click"/>
+                        <Button x:Name="BuildCache_button" Content="Build Cache" HorizontalAlignment="Left" Margin="405,344,0,0" VerticalAlignment="Top" Width="75" Click="BuildCache_button_Click"/>
+                        <CheckBox x:Name="ckbx_Locators_Only" Content="Locators Only" HorizontalAlignment="Left" Margin="310,347,0,0" VerticalAlignment="Top"/>
+                    </Grid>
+                </TabItem>
+
+
+
+            </TabControl>
+            <Grid HorizontalAlignment="Left" Height="33" Margin="4,4,0,0" VerticalAlignment="Top" Width="496" Background="#FF6F208D" UseLayoutRounding="False">
+                <Button x:Name="Cursor_Button" Content="Get Element" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Click="Cursor_Button_Click" Margin="3,5,0,0"/>
+                <Label x:Name="XCordLabel" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,3,0,0"/>
+                <Label x:Name="YCordLabel" Content="Y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="169,3,0,0"/>
+                <TextBox x:Name="Xcord" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Margin="115,5,0,0"/>
+                <TextBox x:Name="YCord" HorizontalAlignment="Left" Height="24" Margin="199,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48"/>
+                <Button Content="TestButton" HorizontalAlignment="Left" Margin="365,5,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" RenderTransformOrigin="0.868,0.485"/>
+                <Button x:Name="ShowElement" Content="Highlight" HorizontalAlignment="Left" Margin="271,5,0,0" VerticalAlignment="Top" Width="75" Click="ShowElement_Click"/>
+                <Label Content="v1.0" Margin="0,3,0,4" Foreground="#FFA03AF5" HorizontalAlignment="Right"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="TreeViewGrid" Background="#FF3E044F" Margin="9,-1,510,1">
+            <TreeView x:Name="ApplicationTree" Margin="4,43,5,5" Background="#FFEAC5EE" SelectedItemChanged="ApplicationTree_SelectedItemChanged" TreeViewItem.Expanded="ApplicationTree_OnExpanded">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type purpleLib:UIA_ElementInfo}" ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}">
+                            <TextBlock.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header ="Get Info" Click="TreeItem_GetInfo"></MenuItem>
+                                </ContextMenu>
+                            </TextBlock.ContextMenu>
+                        </TextBlock>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+            <Grid Height="34" Margin="4,4,5,0" VerticalAlignment="Top" Background="#FF6F208D">
+                <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Margin="6,6,0,0" VerticalAlignment="Top" Width="75" Click="RefreshButton_Click"/>
+                <TextBox x:Name="ApplicationTextBox" HorizontalAlignment="Left" Height="23" Margin="96,5,0,0" TextWrapping="Wrap" Text="Application Name" VerticalAlignment="Top" Width="283"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Window>
